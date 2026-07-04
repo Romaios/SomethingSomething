@@ -1,0 +1,61 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ASUS\\Documents\\Project\\SomethingSomething\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1ABFB423-230F-4E03-B88F-01ED4FEFD40A}|SomethingSomething\\SomethingSomething.csproj|c:\\users\\asus\\documents\\project\\somethingsomething\\somethingsomething\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{1ABFB423-230F-4E03-B88F-01ED4FEFD40A}|SomethingSomething\\SomethingSomething.csproj|solutionrelative:somethingsomething\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1ABFB423-230F-4E03-B88F-01ED4FEFD40A}|SomethingSomething\\SomethingSomething.csproj|c:\\users\\asus\\documents\\project\\somethingsomething\\somethingsomething\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1ABFB423-230F-4E03-B88F-01ED4FEFD40A}|SomethingSomething\\SomethingSomething.csproj|solutionrelative:somethingsomething\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Documents\\Project\\SomethingSomething\\SomethingSomething\\MainPage.xaml.cs",
+              "RelativeDocumentMoniker": "SomethingSomething\\MainPage.xaml.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Documents\\Project\\SomethingSomething\\SomethingSomething\\MainPage.xaml.cs",
+              "RelativeToolTip": "SomethingSomething\\MainPage.xaml.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAcwEMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-02T06:15:29.298Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainPage.xaml",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Documents\\Project\\SomethingSomething\\SomethingSomething\\MainPage.xaml",
+              "RelativeDocumentMoniker": "SomethingSomething\\MainPage.xaml",
+              "ToolTip": "C:\\Users\\ASUS\\Documents\\Project\\SomethingSomething\\SomethingSomething\\MainPage.xaml",
+              "RelativeToolTip": "SomethingSomething\\MainPage.xaml",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAuwCsAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-07-02T05:55:13.328Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
