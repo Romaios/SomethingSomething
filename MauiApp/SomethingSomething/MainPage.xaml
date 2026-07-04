@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SomethingSomething"
+             x:Class="SomethingSomething.MainPage"
+             Title="Inventory App"
+             BackgroundColor="#F8FAFC"
+             Shell.BackgroundColor="#FFFFFF"
+             Shell.TitleColor="#0F172A"
+             Shell.ForegroundColor="#0F172A">
+
+    <ScrollView x:Name="PageScrollView">
+        <VerticalStackLayout Padding="24"
+                             Spacing="18">
+            <VerticalStackLayout Spacing="6">
+                <HorizontalStackLayout Spacing="12"
+                                       VerticalOptions="Center">
+                    <Border Padding="6"
+                            BackgroundColor="#FFFFFF"
+                            Stroke="#93C5FD"
+                            StrokeShape="RoundRectangle 14">
+                        <Border.GestureRecognizers>
+                            <!-- TapGestureRecognizer = plays the Mudkip sound only when the mascot is tapped -->
+                            <TapGestureRecognizer Tapped="OnMudkipTapped" />
+                        </Border.GestureRecognizers>
+
+                        <!-- Image = animated header icon loaded from the MAUI Resources\Images folder -->
+                        <Image Source="inventory_bird.gif"
+                               HeightRequest="56"
+                               IsAnimationPlaying="True"
+                               WidthRequest="56" />
+                    </Border>
+
+                    <!-- Label = main app title shown beside the GIF -->
+                    <Label Text="Inventory App"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="30"
+                           TextColor="#0F172A"
+                           VerticalTextAlignment="Center" />
+                </HorizontalStackLayout>
+
+                <!-- Description label -->
+                <Label Text="Load inventory items from the API, add new ones, remove saved rows, and manage notes."
+                       FontSize="16"
+                       TextColor="#475569" />
+
+                <Border Padding="16"
+                        BackgroundColor="#DBEAFE"
+                        Stroke="#BFDBFE">
+                    <!-- Summary label: shows visible items, visible total quantity, and low-stock count -->
+                    <Label x:Name="SummaryLabel"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="16"
+                           Text="0 items shown | 0 total quantity | 0 low stock"
+                           TextColor="#1D4ED8" />
+                </Border>
+            </VerticalStackLayout>
+
+            <Border Padding="18"
+                    BackgroundColor="#FFFFFF"
+                    Stroke="#D9E2EC">
+                <VerticalStackLayout Spacing="14">
+                    <!-- Section title label -->
+                    <Label x:Name="FormSectionTitleLabel"
+                           Text="Add New Item"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="20"
+                           TextColor="#0F172A" />
+
+                    <!-- Entry = text box for item name -->
+                    <Entry x:Name="ItemNameEntry"
+                           Placeholder="Item name"
+                           ClearButtonVisibility="WhileEditing" />
+
+                    <!-- Entry = text box for quantity -->
+                    <Entry x:Name="QuantityEntry"
+                           Placeholder="Quantity"
+                           Keyboard="Numeric"
+                           Text="1" />
+
+                    <!-- Picker = combo box / drop-down list for category -->
+                    <Picker x:Name="CategoryPicker"
+                            Title="Select a category" />
+
+                    <!-- Label = shows whether the form is in add mode or edit mode -->
+                    <Label x:Name="EditModeLabel"
+                           FontAttributes="Bold"
+                           FontSize="13"
+                           IsVisible="False"
+                           TextColor="#C2410C" />
+
+                    <!-- Button = adds a new item or updates the selected item through the API -->
+                    <Button x:Name="SaveItemButton"
+                            Text="Add Item"
+                            BackgroundColor="#2563EB"
+                            TextColor="#FFFFFF"
+                            Clicked="OnAddItemClicked" />
+
+                    <!-- Button = cancels edit mode and resets the form -->
+                    <Button x:Name="CancelEditButton"
+                            Text="Cancel Edit"
+                            BackgroundColor="#CBD5E1"
+                            TextColor="#0F172A"
+                            Clicked="OnCancelEditClicked"
+                            IsVisible="False" />
+
+                    <!-- Status label = shows success, loading, or error message -->
+                    <Label x:Name="StatusLabel"
+                           FontSize="13"
+                           IsVisible="False"
+                           LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="18"
+                    BackgroundColor="#FFFFFF"
+                    Stroke="#D9E2EC">
+                <VerticalStackLayout Spacing="14">
+                    <!-- Section title label -->
+                    <Label Text="Search And Filter"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="20"
+                           TextColor="#0F172A" />
+
+                    <!-- Entry = text box for searching item names -->
+                    <Entry x:Name="SearchEntry"
+                           Placeholder="Search by item name"
+                           ClearButtonVisibility="WhileEditing"
+                           TextChanged="OnFilterChanged" />
+
+                    <!-- Picker = combo box / drop-down list for filtering by category -->
+                    <Picker x:Name="FilterCategoryPicker"
+                            Title="Filter by category"
+                            SelectedIndexChanged="OnFilterChanged" />
+
+                    <!-- Picker = combo box / drop-down list for choosing sort order -->
+                    <Picker x:Name="SortPicker"
+                            Title="Sort items"
+                            SelectedIndexChanged="OnFilterChanged" />
+
+                    <!-- Button = clears the active search and category filter -->
+                    <Button Text="Clear Filters"
+                            BackgroundColor="#CBD5E1"
+                            TextColor="#0F172A"
+                            Clicked="OnClearFiltersClicked" />
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout Spacing="12">
+                <!-- Section title label -->
+                <Label Text="View Mode"
+                       FontFamily="OpenSansSemibold"
+                       FontSize="20"
+                       TextColor="#0F172A" />
+
+                <!-- Label = explains the page mode switcher -->
+                <Label Text="Switch between the dashboard view and the inventory list view."
+                       FontSize="13"
+                       TextColor="#475569" />
+
+                <Grid ColumnDefinitions="*,*"
+                      ColumnSpacing="10">
+                    <!-- Button = switches to the Inventory Overview mode -->
+                    <Button x:Name="OverviewModeButton"
+                            Grid.Column="0"
+                            Text="Inventory Overview"
+                            Clicked="OnOverviewModeClicked" />
+
+                    <!-- Button = switches to the Saved Inventory mode -->
+                    <Button x:Name="SavedInventoryModeButton"
+                            Grid.Column="1"
+                            Text="Saved Inventory"
+                            Clicked="OnSavedInventoryModeClicked" />
+                </Grid>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout x:Name="OverviewSection"
+                                 Spacing="12">
+                <!-- Section title label -->
+                <Label Text="Inventory Overview"
+                       FontFamily="OpenSansSemibold"
+                       FontSize="20"
+                       TextColor="#0F172A" />
+
+                <!-- Label = explains what the dashboard cards summarize -->
+                <Label Text="These cards summarize the currently visible items after search, filter, and sort are applied."
+                       FontSize="13"
+                       TextColor="#475569" />
+
+                <!-- CollectionView = dashboard cards grouped by category -->
+                <CollectionView x:Name="CategorySummaryCollectionView"
+                                SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <Border Padding="18"
+                                BackgroundColor="#FFFFFF"
+                                Stroke="#D9E2EC">
+                            <Label Text="No category summaries are available for the current view."
+                                   HorizontalTextAlignment="Center"
+                                   TextColor="#64748B" />
+                        </Border>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="local:CategorySummary">
+                            <Border Margin="0,0,0,10"
+                                    Padding="16"
+                                    BackgroundColor="#FFFFFF"
+                                    Stroke="#D9E2EC">
+                                <VerticalStackLayout Spacing="8">
+                                    <!-- Label = shows the category name -->
+                                    <Label FontFamily="OpenSansSemibold"
+                                           FontSize="18"
+                                           Text="{Binding Category}"
+                                           TextColor="#0F172A" />
+
+                                    <!-- Label = shows distinct item count for the category -->
+                                    <Label Text="{Binding ItemCount, StringFormat='Items: {0}'}"
+                                           TextColor="#475569" />
+
+                                    <!-- Label = shows total quantity for the category -->
+                                    <Label Text="{Binding TotalQuantity, StringFormat='Total Quantity: {0}'}"
+                                           TextColor="#475569" />
+
+                                    <!-- Label = shows low-stock item count for the category -->
+                                    <Label Text="{Binding LowStockCount, StringFormat='Low Stock: {0}'}"
+                                           TextColor="#C2410C" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout x:Name="SavedInventorySection"
+                                 Spacing="12">
+                <!-- List title label -->
+                <Label Text="Saved Inventory"
+                       FontFamily="OpenSansSemibold"
+                       FontSize="20" />
+
+                <!-- Label = explains the low-stock classroom rule -->
+                <Label Text="Items with quantity 5 or below are marked as low stock."
+                       FontSize="13"
+                       TextColor="#92400E" />
+
+                <!-- Label = explains how to open the second page -->
+                <Label Text="Tap an inventory row to open the details page."
+                       FontSize="13"
+                       TextColor="#475569" />
+
+                <!-- CollectionView = list of inventory items returned by the API -->
+                <CollectionView x:Name="ItemsCollectionView"
+                                SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <Border Padding="18"
+                                BackgroundColor="#FFFFFF"
+                                Stroke="#D9E2EC">
+                            <!-- Empty-state label -->
+                            <Label Text="No inventory items match the current search or filter."
+                                   HorizontalTextAlignment="Center"
+                                   TextColor="#64748B" />
+                        </Border>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="local:InventoryItemDto">
+                            <Border Margin="0,0,0,10"
+                                    Padding="16"
+                                    BackgroundColor="#FFFFFF"
+                                    Stroke="#D9E2EC">
+                                <Border.GestureRecognizers>
+                                    <!-- TapGestureRecognizer = opens the second page for item details -->
+                                    <TapGestureRecognizer Tapped="OnViewDetailsTapped"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border"
+                                                 Binding="{Binding IsLowStock}"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#FFF7ED" />
+                                        <Setter Property="Stroke"
+                                                Value="#F59E0B" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+
+                                <Grid RowDefinitions="Auto,Auto"
+                                      ColumnDefinitions="*,Auto"
+                                      ColumnSpacing="12">
+                                    <VerticalStackLayout Grid.Row="0"
+                                                         Grid.Column="0"
+                                                         Spacing="4">
+                                        <!-- Label = shows item name -->
+                                        <Label FontFamily="OpenSansSemibold"
+                                               FontSize="18"
+                                               TextColor="#0F172A"
+                                               Text="{Binding Name}" />
+
+                                        <!-- Label = appears only when the item is low stock -->
+                                        <Label BackgroundColor="#F59E0B"
+                                               FontAttributes="Bold"
+                                               FontSize="12"
+                                               IsVisible="{Binding IsLowStock}"
+                                               Padding="8,3"
+                                               Text="{Binding StockStatus}"
+                                               TextColor="#FFFFFF" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Row="0"
+                                                         Grid.Column="1"
+                                                         Spacing="6">
+                                        <!-- Label = shows database item id -->
+                                        <Label FontSize="12"
+                                               HorizontalTextAlignment="End"
+                                               TextColor="#64748B"
+                                               Text="{Binding ItemId, StringFormat='ID: {0}'}"
+                                               VerticalTextAlignment="Center" />
+
+                                        <HorizontalStackLayout Spacing="6">
+                                            <!-- Button = loads the selected item into the form for editing -->
+                                            <Button Text="Edit"
+                                                    BackgroundColor="#F59E0B"
+                                                    Clicked="OnEditItemClicked"
+                                                    CommandParameter="{Binding .}"
+                                                    FontSize="13"
+                                                    Padding="12,6"
+                                                    TextColor="#FFFFFF" />
+
+                                            <!-- Button = removes the selected item through the API -->
+                                            <Button Text="Delete"
+                                                    BackgroundColor="#DC2626"
+                                                    Clicked="OnDeleteItemClicked"
+                                                    CommandParameter="{Binding .}"
+                                                    FontSize="13"
+                                                    Padding="12,6"
+                                                    TextColor="#FFFFFF" />
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+
+                                    <HorizontalStackLayout Grid.Row="1"
+                                                           Grid.ColumnSpan="2"
+                                                           Spacing="10">
+                                        <!-- Label = shows item category -->
+                                        <Label Text="{Binding Category}"
+                                               TextColor="#64748B" />
+
+                                        <!-- Label = shows item quantity -->
+                                        <Label Text="{Binding Quantity, StringFormat='Qty: {0}'}"
+                                               TextColor="#64748B" />
+
+                                        <!-- Label = shows stock status text -->
+                                        <Label Text="{Binding StockStatus}"
+                                               TextColor="#64748B">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label"
+                                                             Binding="{Binding IsLowStock}"
+                                                             Value="True">
+                                                    <Setter Property="TextColor"
+                                                            Value="#C2410C" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

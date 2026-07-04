@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SomethingSomething"
+             x:Class="SomethingSomething.InventoryDetailsPage"
+             Title="Item Details"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24"
+                             Spacing="18">
+            <VerticalStackLayout Spacing="6">
+                <!-- Title label -->
+                <Label Text="Inventory Details"
+                       FontFamily="OpenSansSemibold"
+                       FontSize="28"
+                       TextColor="#0F172A" />
+
+                <!-- Description label -->
+                <Label Text="Review one inventory record and save timestamped notes."
+                       FontSize="16"
+                       TextColor="#475569" />
+            </VerticalStackLayout>
+
+            <Border Padding="18"
+                    BackgroundColor="#FFFFFF"
+                    Stroke="#D9E2EC">
+                <VerticalStackLayout Spacing="14">
+                    <!-- Label = shows the selected item id -->
+                    <Label x:Name="ItemIdLabel"
+                           FontSize="13"
+                           TextColor="#64748B"
+                           Text="ID: -" />
+
+                    <!-- Label = shows the selected item name -->
+                    <Label x:Name="NameLabel"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="24"
+                           TextColor="#0F172A"
+                           Text="No item selected" />
+
+                    <!-- Label = shows the selected item stock badge -->
+                    <Label x:Name="StockBadgeLabel"
+                           BackgroundColor="#2563EB"
+                           FontAttributes="Bold"
+                           FontSize="12"
+                           Padding="10,4"
+                           Text="In Stock"
+                           TextColor="#FFFFFF" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="18"
+                    BackgroundColor="#FFFFFF"
+                    Stroke="#D9E2EC">
+                <VerticalStackLayout Spacing="14">
+                    <!-- Section title label -->
+                    <Label Text="Current Values"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="20"
+                           TextColor="#0F172A" />
+
+                    <!-- Label = shows the selected item category -->
+                    <Label x:Name="CategoryLabel"
+                           FontSize="16"
+                           TextColor="#334155"
+                           Text="Category: -" />
+
+                    <!-- Label = shows the selected item quantity -->
+                    <Label x:Name="QuantityLabel"
+                           FontSize="16"
+                           TextColor="#334155"
+                           Text="Quantity: -" />
+
+                    <!-- Label = explains the low-stock rule -->
+                    <Label Text="Low stock means quantity 5 or below."
+                           FontSize="13"
+                           TextColor="#92400E" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="18"
+                    BackgroundColor="#FFFFFF"
+                    Stroke="#D9E2EC">
+                <VerticalStackLayout Spacing="14">
+                    <!-- Section title label -->
+                    <Label Text="Notes History"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="20"
+                           TextColor="#0F172A" />
+
+                    <!-- Editor = text area for entering a note -->
+                    <Editor x:Name="NoteEditor"
+                            AutoSize="TextChanges"
+                            Placeholder="Add a note about this item"
+                            TextColor="#0F172A" />
+
+                    <!-- Button = sends the new note to the API -->
+                    <Button Text="Add Note"
+                            BackgroundColor="#2563EB"
+                            TextColor="#FFFFFF"
+                            Clicked="OnAddNoteClicked" />
+
+                    <!-- Label = shows note loading and save status -->
+                    <Label x:Name="NotesStatusLabel"
+                           FontSize="13"
+                           IsVisible="False"
+                           LineBreakMode="WordWrap" />
+
+                    <!-- CollectionView = shows notes stored for this item -->
+                    <CollectionView x:Name="NotesCollectionView"
+                                    SelectionMode="None">
+                        <CollectionView.EmptyView>
+                            <Border Padding="16"
+                                    BackgroundColor="#F8FAFC"
+                                    Stroke="#D9E2EC">
+                                <Label Text="No notes saved for this item yet."
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="#64748B" />
+                            </Border>
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="local:InventoryNoteDto">
+                                <Border Margin="0,0,0,10"
+                                        Padding="14"
+                                        BackgroundColor="#F8FAFC"
+                                        Stroke="#D9E2EC">
+                                    <VerticalStackLayout Spacing="6">
+                                        <!-- Label = shows when the note was created -->
+                                        <Label FontAttributes="Bold"
+                                               FontSize="12"
+                                               Text="{Binding CreatedAtDisplay}"
+                                               TextColor="#64748B" />
+
+                                        <!-- Label = shows the note text -->
+                                        <Label Text="{Binding NoteText}"
+                                               LineBreakMode="WordWrap"
+                                               TextColor="#0F172A" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="18"
+                    BackgroundColor="#FFFFFF"
+                    Stroke="#D9E2EC">
+                <VerticalStackLayout Spacing="12">
+                    <!-- Section title label -->
+                    <Label Text="Future Expansion"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="20"
+                           TextColor="#0F172A" />
+
+                    <!-- Label = explains why this second page exists in the classroom progression -->
+                    <Label Text="This page is ready for later features such as stock history, supplier details, or item activity logs."
+                           FontSize="14"
+                           LineBreakMode="WordWrap"
+                           TextColor="#475569" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
